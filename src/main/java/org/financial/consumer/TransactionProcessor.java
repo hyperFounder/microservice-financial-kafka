@@ -15,8 +15,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-
-
 public class TransactionProcessor{
 
     private static final Logger log = LoggerFactory.getLogger(TransactionProcessor.class);
