@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.3
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.3
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # Notice we now use the internal Docker network name 'kafka'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: financialdb
+
+  financial-app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - kafka
+
+  gateway:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      # Map your local gateway files into the NGINX container
+      - ./gateway/index.html:/usr/share/nginx/html/index.html
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - financial-app
