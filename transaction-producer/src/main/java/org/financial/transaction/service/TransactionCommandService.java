@@ -2,8 +2,8 @@ package org.financial.transaction.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.financial.infrastructure.outbox.OutboxEventEntity;
-import org.financial.infrastructure.outbox.OutboxEventRepository;
+import org.financial.outbox.OutboxEventEntity;
+import org.financial.outbox.OutboxEventRepository;
 import org.financial.transaction.domain.Transaction;
 import org.financial.transaction.domain.TransactionEntity;
 import org.financial.transaction.repository.TransactionRepository;
@@ -51,7 +51,7 @@ public class TransactionCommandService {
             OutboxEventEntity outboxEvent = new OutboxEventEntity(
                     UUID.randomUUID().toString(),
                     transaction.accountId(),
-                    "trasactions",
+                    "transactions",
                     payload,
                     "PENDING"
             );

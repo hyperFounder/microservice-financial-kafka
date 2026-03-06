@@ -1,6 +1,6 @@
-package org.financial.infrastructure.messaging;
+package org.financial.messaging;
 
-import org.financial.transaction.domain.Transaction;
+import org.financial.domain.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.DltHandler;

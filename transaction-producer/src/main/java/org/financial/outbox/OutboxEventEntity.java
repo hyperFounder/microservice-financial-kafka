@@ -1,4 +1,4 @@
-package org.financial.infrastructure.outbox;
+package org.financial.outbox;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

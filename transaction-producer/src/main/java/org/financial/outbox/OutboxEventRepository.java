@@ -1,4 +1,4 @@
-package org.financial.infrastructure.outbox;
+package org.financial.outbox;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

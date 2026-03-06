@@ -1,4 +1,4 @@
-package org.financial.infrastructure.outbox;
+package org.financial.outbox;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +22,7 @@ public class OutboxRelayWorker {
     }
 
 //    @Scheduled(fixedDelayString = "5000"). Comment this to check status as PENDING in database.
+    @Scheduled(fixedDelayString = "5000")
     public void pollAndPublishOutbox() {
         List<OutboxEventEntity> pendingEvents = outboxEventRepository.findByStatus("PENDING");
 
