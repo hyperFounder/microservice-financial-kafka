@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Financial Transaction System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#551A8B" alink="#FF0000">
+
+<center>
+
+  <br><br>
+
+  <font size="6"><b>FINANCIAL TRANSACTION SYSTEM</b></font><br>
+  <font size="4">3555 Transaction Lane</font><br>
+  <font size="4">Omaha, NE 68131</font><br>
+  <font size="4">Official Transaction Submission Page</font>
+
+  <br><br><br>
+
+  This is the official interface for submitting asynchronous financial transactions<br>
+  using the Transactional Outbox pattern.<br>
+  All writes are protected by full RDBMS ACID guarantees.
+
+  <br><br>
+
+  Submit New Transaction
+
+  <br><br>
+
+  <form id="txForm" method="POST" action="/api/transactions">
+    Account ID: <input type="text" name="accountId" size="20" required><br><br>
+    Amount (GBP): <input type="text" name="amount" size="20" required><br><br>
+    <input type="submit" value=" Submit Transaction ">
+  </form>
+
+  <br><br>
+
+  <div id="status" style="font-family: monospace; min-height: 40px;"></div>
+
+  <br><br><br>
+
+  If you have any comments about this page, you can write us at the address shown above.<br>
+  However, due to the limited number of personnel in our corporate office, we are unable<br>
+  to provide a direct response.
+
+  <br><br><br><br>
+
+  <hr width="70%" noshade size="1">
+
+  <font size="2">
+    © 2026 Financial Systems App. All rights reserved.
+  </font>
+
+</center>
+
+<script>
+  // [script remains exactly the same as previous version]
+  document.getElementById('txForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const status = document.getElementById('status');
+    status.innerHTML = 'Sending transaction...<br>';
+
+    const formData = new FormData(this);
+    const payload = {
+      accountId: formData.get('accountId').trim(),
+      amount: Number(formData.get('amount'))
+    };
+
+    if (!payload.accountId || isNaN(payload.amount) || payload.amount <= 0) {
+      status.innerHTML += '<font color="red">Invalid input.</font>';
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await res.text();
+
+      if (res.ok) {
+        status.innerHTML += '<font color="green">Transaction accepted.</font><br>' + text;
+      } else {
+        status.innerHTML += '<font color="red">Error ' + res.status + ' – ' + (text || 'Unknown')</font>';
+      }
+    } catch (err) {
+      status.innerHTML += '<font color="red">Network failure – server not reachable.</font>';
+    }
+  });
+</script>
+
+</body>
+</html>
