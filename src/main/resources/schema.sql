@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS outbox_events(
     aggregate_id VARCHAR(255) NOT NULL,
     topic VARCHAR(255) NOT NULL,
     payload TEXT NOT NULL,
-    status VARCHAR(50) NOT NULL,
-)
+    status VARCHAR(50) NOT NULL
+);
 
 -- Avoid full outbox_events TABLE scan
-CREATE INDEX IF NOT EXISTS idx_outbox_status ON outbox_events (status)
+CREATE INDEX IF NOT EXISTS idx_outbox_status ON outbox_events (status);
