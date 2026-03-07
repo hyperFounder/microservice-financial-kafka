@@ -18,7 +18,7 @@ An asynchronous, event-driven microservices ecosystem built with **Spring Boot**
 ```
 
 4. Open ``http://localhost:80`` in your browser
-5. Deleting the containers: ```docker-compose down -v```
+5. Deleting the container volumes: ```docker-compose down -v```
 
 ### Architecture Patterns
 
